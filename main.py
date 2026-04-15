@@ -18,11 +18,11 @@ player_pos = pygame.Vector2(screen.get_width()/2, screen.get_height()/2)
 
 
 def reset():
-    running = True
     dt = 0
     ds = 1280
     ts = 0
     jump = False
+    return dt, ds, ts, jump
 
 while running:
     for event in pygame.event.get():
@@ -33,9 +33,9 @@ while running:
     # fill screen with color for new frame
     screen.fill('blue')
 
+    # move obstacle according to delta time
     if ds < 0:
-        ds = 1280
-
+        ds = 1320
     ds -= 10
 
     # circle plot according to new position
@@ -51,12 +51,13 @@ while running:
     # if player hits obstacles
     if player_pos.y == screen.get_height()/2:
         if ds <= player_pos.x + 20 and ds > player_pos.x - 20:
-            reset()
+            dt, ds, ts, jump = reset()
 
     # keys for navigation
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
+    if keys[pygame.K_SPACE]:
         if not jump:
+            # start jumping if space is pressed and player is not already jumping
             jump = True
 
     if jump:
